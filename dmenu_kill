@@ -1,0 +1,15 @@
+#!/bin/sh
+
+args() { shift 4; echo "$@"; }
+ps -x |
+nth 2 99999 |
+while read line; do args $line; done |
+dmenu -l 30 "$@" |
+while read line; do
+	printf 'no\nyes\n' | dmenu -p "kill $line?" |
+	while read answer; do
+		case "$answer" in
+			yes) pkill -f "$line" ;;
+		esac
+	done
+done

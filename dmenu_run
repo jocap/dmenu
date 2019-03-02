@@ -1,2 +1,10 @@
 #!/bin/sh
-dmenu_path | dmenu "$@" | ${SHELL:-"/bin/sh"} &
+dmenu_path | dmenu "$@" | while read selection; do
+	case "$selection" in
+		kill|pkill) dmenu_kill ;;
+		maild) urxvt -name maild -e maild ;;
+		fff) urxvt -name fff -e fff ;;
+		htop) urxvt -name htop -g 70x8 -e htop ;;
+		*) printf '%s\n' "$selection" | ${SHELL:-"/bin/sh"} & ;;
+	esac
+done
